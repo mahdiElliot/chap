@@ -1,15 +1,12 @@
 package com.example.chap.view.activity
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import com.example.chap.R
 
-class MainActivity : AppCompatActivity() {
-
+class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
-
+        setContentView(R.layout.activity_auth)
     }
 }

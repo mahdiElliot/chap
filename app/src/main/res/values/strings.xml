@@ -8,4 +8,18 @@
     <string name="mobile">شماره موبایل</string>
     <string name="password">پسورد</string>
     <string name="text_signin">وارد شوید</string>
+    <string name="signup">ثبت نام</string>
+    <string name="signin">ورود</string>
+    <string name="edit_info">ویرایش اطلاعات</string>
+    <string name="change_pass">تغییر پسورد</string>
+    <string name="addresses">آدرس ها</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
