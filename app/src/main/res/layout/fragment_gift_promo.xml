@@ -6,52 +6,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".application.view.fragment.CpPbFormFragment"
     android:background="@color/grey"
-    android:paddingTop="12dp"
-    android:paddingBottom="16dp">
+    android:paddingTop="24dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.06" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.94" />
-
-    <FrameLayout
-        android:id="@+id/frame_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/guide_1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintRight_toRightOf="@id/guide_2"
-        android:layoutDirection="rtl"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_time"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_time" />
-    </FrameLayout>
+        app:layout_constraintGuide_percent="0.88" />
 
 
     <LinearLayout
         android:id="@+id/layout_upload"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         app:layout_constraintLeft_toLeftOf="@id/guide_1"
         app:layout_constraintRight_toRightOf="@id/guide_2"
-        app:layout_constraintTop_toBottomOf="@id/frame_time"
+        app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -89,47 +70,35 @@
             android:src="@drawable/ic_upload_black" />
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/frame_designs"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/layout_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_upload">
 
-    <LinearLayout
-        android:id="@+id/layout_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/layout_upload"
-        app:layout_constraintLeft_toLeftOf="@id/guide_1"
-        app:layout_constraintRight_toRightOf="@id/guide_2"
-        android:layout_marginTop="8dp"
-        android:layoutDirection="rtl">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="نوع چاپ:"
-            android:layout_marginLeft="24dp" />
-
-        <Switch
-            android:id="@+id/switch_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
-            android:checked="true"
-            android:text="رنگی"
-            android:layoutDirection="ltr"
-            android:thumbTint="@color/white"
-            android:track="@drawable/switch_background" />
-
-    </LinearLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_design"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_design"
+            tools:itemCount="4" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/layout_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="@id/guide_1"
         app:layout_constraintRight_toRightOf="@+id/guide_2"
-        app:layout_constraintTop_toBottomOf="@id/layout_switch"
+        app:layout_constraintBottom_toTopOf="@id/btn_continue"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         android:layoutDirection="rtl">
 
@@ -149,7 +118,7 @@
             android:textColor="@color/black"
             android:textDirection="rtl"
             android:gravity="top"
-            android:lines="5"
+            android:lines="7"
             android:background="@drawable/et_background_rounded" />
 
     </LinearLayout>
@@ -157,13 +126,13 @@
     <Button
         android:id="@+id/btn_continue"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:text="@string/cont"
-        app:layout_constraintLeft_toLeftOf="@id/guide_1"
-        app:layout_constraintRight_toRightOf="@id/guide_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/btn_background"
-        android:layout_marginTop="16dp" />
+        android:background="@color/white"
+        android:layout_marginTop="48dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

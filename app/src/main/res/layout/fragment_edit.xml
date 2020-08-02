@@ -40,6 +40,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:fontFamily="@font/titlefont"
         android:text="@string/edit_info"
         android:textColor="@color/white"
         android:textSize="24sp"
