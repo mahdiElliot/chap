@@ -1,12 +1,12 @@
-package com.example.chap.view.activity
+package com.example.chap.application.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.chap.R
 
-class AuthActivity : AppCompatActivity() {
+class FormActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+        setContentView(R.layout.activity_form)
     }
 }

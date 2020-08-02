@@ -5,15 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
-    tools:context=".view.fragment.RegisterFragment">
+    tools:context=".application.view.fragment.RegisterFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.1"
-        android:orientation="horizontal"
-        />
+        android:orientation="horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_2"
