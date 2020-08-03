@@ -36,8 +36,9 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/back"
+        android:layout_width="12dp"
+        android:layout_height="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/ic_back"
@@ -64,7 +65,7 @@
         app:layout_constraintLeft_toLeftOf="@id/guide_3"
         app:layout_constraintRight_toRightOf="@+id/guide_4"
         app:layout_constraintTop_toTopOf="@id/guide_2"
-        app:layout_constraintBottom_toTopOf="@+id/btn_signin"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
         android:layout_marginTop="16dp"
         android:orientation="vertical">
 
@@ -84,26 +85,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:inputType="textPassword"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:gravity="right|center"
             android:hint="@string/password"
             android:backgroundTint="@color/colorAccent" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_signin"
+        android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:text="@string/signin"
         android:layout_marginBottom="4dp"
         android:background="@drawable/btn_background"
-        app:layout_constraintBottom_toTopOf="@id/tv_signup"
+        app:layout_constraintBottom_toTopOf="@id/tv_register"
         app:layout_constraintLeft_toLeftOf="@id/guide_3"
         app:layout_constraintRight_toRightOf="@id/guide_4" />
 
 
     <TextView
-        android:id="@+id/tv_signup"
+        android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"

@@ -33,4 +33,9 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="address_description">آدرس خود را به دقت بررسی کنید و در صورت نیاز ویرایش نمایید</string>
     <string name="save">ذخیره</string>
+    <string name="invalid_email">ایمیل نامعتبر است</string>
+    <string name="invalid_name_family">نام و نام خانوادگی را وارد نمایید</string>
+    <string name="invalid_mobile">شماره موبایل نمیتواند خالی یا نامعتبر  باشد</string>
+    <string name="invalid_pass">حداقل طول رمز باید ۶ باشد</string>
+    <string name="invalid_username">نام کاربری نمی‌تواند خالی باشد</string>
 </resources>

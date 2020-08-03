@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_comments.xml"
+    app:startDestination="@id/commentsFragment">
+
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.example.chap.application.view.fragment.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments">
+        <action
+            android:id="@+id/action_commentsFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_commentsFragment_to_editFragment"
+            app:destination="@id/editFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="com.example.chap.application.view.fragment.AddressListFragment"
+        android:label="fragment_address_list"
+        tools:layout="@layout/fragment_address_list">
+        <action
+            android:id="@+id/action_addressListFragment_to_editAddressFragment2"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.chap.application.view.fragment.EditFragment"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit" />
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="com.example.chap.application.view.fragment.EditAddressFragment"
+        android:label="fragment_edit_address"
+        tools:layout="@layout/fragment_edit_address" />
+</navigation>

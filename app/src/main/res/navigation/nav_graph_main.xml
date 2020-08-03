@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main.xml"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.chap.application.view.fragment.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_cpPbFormFragment"
+            app:destination="@id/cpPbFormFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_giftPromoFragment"
+            app:destination="@id/giftPromoFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_mainFragment_to_editFragment"
+            app:destination="@id/editFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/cpPbFormFragment"
+        android:name="com.example.chap.application.view.fragment.CpPbFormFragment"
+        android:label="fragment_cp_pb_form"
+        tools:layout="@layout/fragment_cp_pb_form">
+        <action
+            android:id="@+id/action_cpPbFormFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/giftPromoFragment"
+        android:name="com.example.chap.application.view.fragment.GiftPromoFragment"
+        android:label="fragment_gift_promo"
+        tools:layout="@layout/fragment_gift_promo">
+        <action
+            android:id="@+id/action_giftPromoFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="com.example.chap.application.view.fragment.AddressListFragment"
+        android:label="fragment_address_list"
+        tools:layout="@layout/fragment_address_list">
+        <action
+            android:id="@+id/action_addressListFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAddressFragment"
+        android:name="com.example.chap.application.view.fragment.EditAddressFragment"
+        android:label="fragment_edit_address"
+        tools:layout="@layout/fragment_edit_address" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.chap.application.view.fragment.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.chap.application.view.fragment.EditFragment"
+        android:label="fragment_edit"
+        tools:layout="@layout/fragment_edit" />
+</navigation>
