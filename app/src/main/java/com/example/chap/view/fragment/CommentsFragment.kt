@@ -1,8 +1,6 @@
 package com.example.chap.view.fragment
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -75,7 +73,6 @@ class CommentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         act = activity as MainActivity
-        act.currentFragment = 1
         act.navController2 = Navigation.findNavController(view)
 
         foundComments = ArrayList()
@@ -121,7 +118,7 @@ class CommentsFragment : Fragment() {
 
 
         btn_add_comment.setOnClickListener {
-            CommentDialogFragment().show(requireActivity().supportFragmentManager, "comment")
+            DialogCommentFragment().show(requireActivity().supportFragmentManager, "comment")
         }
 
     }

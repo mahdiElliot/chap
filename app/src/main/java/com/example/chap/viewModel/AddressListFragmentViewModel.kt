@@ -9,4 +9,6 @@ class AddressListFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
 
     val addresses = MutableLiveData<ArrayList<Address>>()
 
+//    fun getAddresses
+
 }

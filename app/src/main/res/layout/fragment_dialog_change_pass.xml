@@ -42,8 +42,8 @@
         android:text="تغییر پسورد"
         android:textColor="@color/white"
         android:textSize="22sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guide_1"
+        app:layout_constraintEnd_toEndOf="@id/guide_2"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -51,8 +51,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="@id/guide_1"
-        app:layout_constraintRight_toRightOf="@id/guide_2"
+        app:layout_constraintStart_toStartOf="@id/guide_1"
+        app:layout_constraintEnd_toEndOf="@id/guide_2"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toTopOf="@id/btn_send">
 
@@ -90,6 +90,6 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

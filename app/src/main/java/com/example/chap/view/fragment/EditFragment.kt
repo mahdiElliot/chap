@@ -87,5 +87,9 @@ class EditFragment : Fragment() {
             val alert11 = builder1.create()
             alert11.show()
         }
+
+        btn_change_pass.setOnClickListener {
+            DialogChangePassFragment().show(requireActivity().supportFragmentManager, "changePass")
+        }
     }
 }

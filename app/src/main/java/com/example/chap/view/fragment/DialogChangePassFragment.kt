@@ -1,7 +1,6 @@
 package com.example.chap.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +12,14 @@ import com.example.chap.R
 import com.example.chap.internal.OnError
 import com.example.chap.internal.SharedPref
 import com.example.chap.internal.ViewModelsFactory
-import com.example.chap.model.User
-import com.example.chap.viewModel.CommentsFragmentViewModel
 import com.example.chap.viewModel.EditFragmentViewModel
-import kotlinx.android.synthetic.main.fragment_change_pass_dialog.*
+import kotlinx.android.synthetic.main.fragment_dialog_change_pass.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class ChangePassDialogFragment : DialogFragment() {
+class DialogChangePassFragment : DialogFragment() {
 
     lateinit var viewModel: EditFragmentViewModel
 
@@ -39,7 +36,7 @@ class ChangePassDialogFragment : DialogFragment() {
                 ViewModelsFactory(SharedPref(requireContext()))
             )
                 .get(EditFragmentViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_change_pass_dialog, container, false)
+        return inflater.inflate(R.layout.fragment_dialog_change_pass, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
