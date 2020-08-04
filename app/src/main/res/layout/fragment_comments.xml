@@ -8,7 +8,7 @@
     android:layoutDirection="rtl"
     android:background="@color/grey"
     android:padding="16dp"
-    tools:context=".application.view.fragment.CommentsFragment">
+    tools:context=".view.fragment.CommentsFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -17,6 +17,40 @@
         android:layout_height="match_parent"
         tools:itemCount="7"
         tools:listitem="@layout/item_comment" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/progressbar"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/btn_retry"
+        style="@android:style/Widget.DeviceDefault.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_reload"
+            android:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/error"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_comment"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/commentsFragment"
-        android:name="com.example.chap.application.view.fragment.CommentsFragment"
+        android:name="com.example.chap.view.fragment.CommentsFragment"
         android:label="fragment_comments"
         tools:layout="@layout/fragment_comments">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/addressListFragment"
-        android:name="com.example.chap.application.view.fragment.AddressListFragment"
+        android:name="com.example.chap.view.fragment.AddressListFragment"
         android:label="fragment_address_list"
         tools:layout="@layout/fragment_address_list">
         <action
@@ -36,12 +36,12 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.example.chap.application.view.fragment.EditFragment"
+        android:name="com.example.chap.view.fragment.EditFragment"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" />
     <fragment
         android:id="@+id/editAddressFragment"
-        android:name="com.example.chap.application.view.fragment.EditAddressFragment"
+        android:name="com.example.chap.view.fragment.EditAddressFragment"
         android:label="fragment_edit_address"
         tools:layout="@layout/fragment_edit_address" />
 </navigation>

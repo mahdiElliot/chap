@@ -10,10 +10,10 @@
 
     <include layout="@layout/content_main" />
 
-    <include
-        android:id="@+id/main"
-        layout="@layout/fragment_main"
-        android:visibility="gone" />
+    <!--    <include-->
+    <!--        android:id="@+id/main"-->
+    <!--        layout="@layout/fragment_main"-->
+    <!--        android:visibility="gone" />-->
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

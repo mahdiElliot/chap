@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".application.view.fragment.MainFragment">
+    tools:context=".view.fragment.MainFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/icon_1" />
+                    android:src="@drawable/icon_1" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_back2" />
+                    android:src="@drawable/ic_back2" />
             </LinearLayout>
 
             <View
@@ -107,7 +107,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/icon_2" />
+                    android:src="@drawable/icon_2" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_back2" />
+                    android:src="@drawable/ic_back2" />
             </LinearLayout>
 
             <View
@@ -174,7 +174,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/icon_4" />
+                    android:src="@drawable/icon_4" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -206,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_back2" />
+                    android:src="@drawable/ic_back2" />
             </LinearLayout>
 
             <View
@@ -241,7 +241,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/icon_3" />
+                    android:src="@drawable/icon_3" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -273,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_back2" />
+                    android:src="@drawable/ic_back2" />
             </LinearLayout>
 
             <View

@@ -55,7 +55,7 @@
                     android:layout_width="40dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/ic_basket" />
+                    android:src="@drawable/ic_basket" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -83,12 +83,12 @@
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical|right"
-                android:background="@drawable/ic_baseline_menu" />
+                android:src="@drawable/ic_baseline_menu" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <com.example.chap.application.internal.NonSwipingViewPager
+    <com.example.chap.internal.NonSwipingViewPager
         android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

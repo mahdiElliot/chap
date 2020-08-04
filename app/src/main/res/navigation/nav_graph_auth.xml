@@ -6,7 +6,7 @@
     app:startDestination="@id/registerFragment">
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.chap.application.view.fragment.RegisterFragment"
+        android:name="com.example.chap.view.fragment.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.chap.application.view.fragment.SignInFragment"
+        android:name="com.example.chap.view.fragment.SignInFragment"
         android:label="fragment_login_in"
         tools:layout="@layout/fragment_login_in" />
 </navigation>

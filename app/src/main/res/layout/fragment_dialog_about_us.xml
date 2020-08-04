@@ -7,7 +7,7 @@
     android:paddingTop="12dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    tools:context=".application.view.fragment.DialogContactUsFragment">
+    tools:context=".view.fragment.DialogContactUsFragment">
 
     <ImageView
         android:id="@+id/btn_cancel"
