@@ -93,23 +93,20 @@ class CommentsFragment : Fragment() {
             adapter = this@CommentsFragment.recyclerViewAdapter
         }
 
+        progressbar.visibility = View.VISIBLE
+
+        commentsViewModel.getCommnets(object : OnError {
+            override fun onError(errMsg: String?) {
+                progressbar.visibility = View.GONE
+                btn_retry.visibility = View.VISIBLE
+            }
+        })
+
         commentsViewModel.comments.observe(viewLifecycleOwner, Observer {
             recyclerViewAdapter.submitList(it)
             progressbar.visibility = View.GONE
             btn_retry.visibility = View.GONE
         })
-
-        Log.i("fuck", (commentsViewModel.comments.value == null).toString())
-
-        progressbar.visibility = View.VISIBLE
-
-        if (commentsViewModel.comments.value == null)
-            commentsViewModel.getCommnets(object : OnError {
-                override fun onError(errMsg: String?) {
-                    progressbar.visibility = View.GONE
-                    btn_retry.visibility = View.VISIBLE
-                }
-            })
 
         btn_retry.setOnClickListener {
             progressbar.visibility = View.VISIBLE
@@ -120,6 +117,11 @@ class CommentsFragment : Fragment() {
                     btn_retry.visibility = View.VISIBLE
                 }
             })
+        }
+
+
+        btn_add_comment.setOnClickListener {
+            CommentDialogFragment().show(requireActivity().supportFragmentManager, "comment")
         }
 
     }
