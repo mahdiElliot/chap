@@ -46,7 +46,7 @@ class CommentsRecyclerViewAdapter(private val interaction: Interaction? = null) 
         return differ.currentList.size
     }
 
-    fun submitList(list: List<Comment>) {
+    fun submitList(list: ArrayList<Comment>) {
         differ.submitList(list)
     }
 

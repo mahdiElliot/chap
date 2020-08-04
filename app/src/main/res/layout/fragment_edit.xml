@@ -68,8 +68,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:maxLines="1"
+            android:inputType="text"
             android:hint="@string/username"
-            android:backgroundTint="@color/colorAccent" />
+            android:backgroundTint="@color/light_blue" />
 
 
         <EditText
@@ -79,8 +81,9 @@
             android:layout_marginTop="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:inputType="textEmailAddress"
             android:hint="@string/email"
-            android:backgroundTint="@color/colorAccent" />
+            android:backgroundTint="@color/light_blue" />
 
         <EditText
             android:id="@+id/et_mobile"
@@ -89,8 +92,9 @@
             android:layout_marginTop="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:inputType="number"
             android:hint="@string/mobile"
-            android:backgroundTint="@color/colorAccent" />
+            android:backgroundTint="@color/light_blue" />
 
     </LinearLayout>
 

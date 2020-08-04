@@ -19,8 +19,10 @@ import com.example.chap.R
 import com.example.chap.internal.OnError
 import com.example.chap.internal.SharedPref
 import com.example.chap.internal.ViewModelsFactory
+import com.example.chap.model.User
 import com.example.chap.view.activity.MainActivity
 import com.example.chap.viewModel.AuthActivityViewModel
+import kotlinx.android.synthetic.main.fragment_edit_address.*
 import java.util.regex.Pattern
 
 
@@ -83,7 +85,14 @@ class RegisterFragment : Fragment() {
                     et_pass.error = getString(R.string.invalid_pass)
                 else {
                     //check if user hasn't registered before
-                    authActivityViewModel.register(et_mobile.text.toString(), object : OnError {
+                    val user = User(
+                        et_username.text.toString(),
+                        et_name_familyName.text.toString(),
+                        et_email.text.toString(),
+                        et_number.text.toString(),
+                        et_pass.text.toString()
+                    )
+                    authActivityViewModel.register(user, object : OnError {
                         override fun onError(errMsg: String?) {
                             Toast.makeText(requireContext(), errMsg, Toast.LENGTH_SHORT).show()
                         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chap.internal.OnError
 import com.example.chap.internal.SharedPref
+import com.example.chap.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
@@ -14,7 +15,7 @@ class AuthActivityViewModel(sharedPref: SharedPref) : ViewModel() {
 
     val isUserAuthenticated = MutableLiveData<Boolean>()
 
-    fun register(mobile: String, onError: OnError) {
+    fun register(user: User, onError: OnError) {
         CoroutineScope(IO).launch {
             withContext(Dispatchers.Main) {
                 isUserAuthenticated.value = true

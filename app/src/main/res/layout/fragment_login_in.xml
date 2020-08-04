@@ -79,7 +79,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:hint="ایمیل یا نام کاربری"
-            android:backgroundTint="@color/colorAccent" />
+            android:backgroundTint="@color/light_blue" />
 
 
         <EditText
@@ -92,7 +92,7 @@
             android:textColorHint="@color/white"
             android:gravity="right|center"
             android:hint="@string/password"
-            android:backgroundTint="@color/colorAccent" />
+            android:backgroundTint="@color/light_blue" />
     </LinearLayout>
 
     <Button
