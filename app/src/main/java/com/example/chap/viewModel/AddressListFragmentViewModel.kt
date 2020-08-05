@@ -21,24 +21,43 @@ class AddressListFragmentViewModel(sharedPref: SharedPref, context: Context) : V
 
     fun getAddresses(onError: OnError) {
         CoroutineScope(IO).launch {
-            adrs = db.getAll()
-
-            if (adrs.isNotEmpty()) {
-                MainScope().launch {
-                    addresses.value = adrs
-                }
+            if (adrs.isEmpty())
+                adrs = db.getAll()
+            Log.i("fuck", adrs.toString())
+            MainScope().launch {
+                addresses.value = adrs
             }
+
         }
     }
 
     fun saveAddress(address: Address, onError: OnError) {
         CoroutineScope(IO).launch {
-            adrs.add(address)
-            db.save(address)
+            if (db.save(address))
+                adrs.add(address)
             MainScope().launch {
                 addresses.value = adrs
             }
         }
+    }
+
+    fun deleteAddress(address: Address, onError: OnError): Boolean {
+        val d = db.deleteAddress(address.lat, address.lng, address.phone)
+//        CoroutineScope(IO).launch {
+        if (!d)
+            onError.onError("not deleted")
+        else {
+            adrs.remove(address)
+            addresses.value = adrs
+        }
+//            MainScope().launch {
+
+        return d
+
+//            }
+//        }
+
+        return d
     }
 
 }

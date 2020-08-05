@@ -14,7 +14,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.chap.R
-import com.google.gson.JsonObject
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.geojson.Point
@@ -35,7 +34,6 @@ import ir.map.sdk_map.MapirStyle
 import ir.map.servicesdk.MapService
 import ir.map.servicesdk.ResponseListener
 import ir.map.servicesdk.model.base.MapirError
-import ir.map.servicesdk.response.FastReverseGeoCodeResponse
 import ir.map.servicesdk.response.ReverseGeoCodeResponse
 import kotlinx.android.synthetic.main.fragment_map.*
 
@@ -48,6 +46,7 @@ class MapFragment : Fragment() {
     private var mapStyle: Style? = null
     private var symbol: Symbol? = null
     private var symbolManager: SymbolManager? = null
+    private var customLocationComponentOptions: LocationComponentOptions? = null
     private val mapService = MapService()
 
     override fun onCreateView(
@@ -65,26 +64,45 @@ class MapFragment : Fragment() {
 
         map_view.onCreate(savedInstanceState)
 
+        val lg = requireArguments().getFloat("lng", -182f)
+        val lt = requireArguments().getFloat("lat", -86f)
+
+
         map_view.getMapAsync {
             map = it
             it.setStyle(
                 Style.Builder().fromUri(MapirStyle.MAIN_MOBILE_VECTOR_STYLE),
                 Style.OnStyleLoaded { style ->
                     mapStyle = style
-                    map!!.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                            LatLng(
-                                36.309632,
-                                59.529750
-                            ),
-                            15.0
-                        )
-                    )
-
-                    enableLocationComponent()
                     symbolManager = SymbolManager(map_view, map!!, mapStyle!!)
                     symbolManager!!.iconAllowOverlap = true
                     symbolManager!!.iconRotationAlignment = ICON_ROTATION_ALIGNMENT_VIEWPORT
+
+                    if (lg != -182f && lt != -86f) {
+                        map!!.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    lt.toDouble(),
+                                    lg.toDouble()
+                                ),
+                                15.0
+                            )
+                        )
+
+                        addSymbolToMap(LatLng(lt.toDouble(), lg.toDouble()))
+                    } else {
+                        map!!.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    36.309632,
+                                    59.529750
+                                ),
+                                15.0
+                            )
+                        )
+                        enableLocationComponent()
+                    }
+
                 })
 
 
@@ -104,16 +122,18 @@ class MapFragment : Fragment() {
                     symbol!!.latLng.longitude,
                     object : ResponseListener<ReverseGeoCodeResponse> {
                         override fun onSuccess(response: ReverseGeoCodeResponse) {
-                            Log.i("fuck", response.addressCompact)
+                            val phone = requireArguments().getString("phone")
                             val bundle = bundleOf(
                                 "address" to response.addressCompact,
                                 "lat" to symbol!!.latLng.latitude.toFloat(),
-                                "lng" to symbol!!.latLng.longitude.toFloat()
+                                "lng" to symbol!!.latLng.longitude.toFloat(),
+                                "phone" to phone
                             )
                             navController.navigate(
                                 R.id.action_mapFragment_to_editAddressFragment,
                                 bundle
                             )
+
                         }
 
                         override fun onError(error: MapirError) {
@@ -127,22 +147,30 @@ class MapFragment : Fragment() {
 
             } else
                 Toast.makeText(context, "آدرسی را انتخاب کنید", Toast.LENGTH_LONG).show()
+        }
 
+        btn_location.setOnClickListener {
+            enableLocationComponent()
         }
     }
 
     private fun enableLocationComponent() {
         if (PermissionsManager.areLocationPermissionsGranted(context)) {
-            val customLocationComponentOptions =
-                LocationComponentOptions.builder(requireContext()).elevation(5f).accuracyAlpha(0.6f)
-                    .accuracyColor(Color.TRANSPARENT).build()
 
             val locationComponent = map!!.locationComponent
-            val locationComponentActivationOptions =
-                LocationComponentActivationOptions.builder(requireContext(), mapStyle!!)
-                    .locationComponentOptions(customLocationComponentOptions).build()
 
-            locationComponent.activateLocationComponent(locationComponentActivationOptions)
+            if (customLocationComponentOptions == null) {
+                customLocationComponentOptions =
+                    LocationComponentOptions.builder(requireContext()).elevation(5f)
+                        .accuracyAlpha(0.6f)
+                        .accuracyColor(Color.TRANSPARENT).build()
+
+                val locationComponentActivationOptions =
+                    LocationComponentActivationOptions.builder(requireContext(), mapStyle!!)
+                        .locationComponentOptions(customLocationComponentOptions).build()
+
+                locationComponent.activateLocationComponent(locationComponentActivationOptions)
+            }
 
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),

@@ -13,16 +13,32 @@
         mapbox:mapbox_cameraZoomMax="20"
         mapbox:mapbox_cameraZoomMin="1" />
 
-    <Button
-        android:id="@+id/btn_continue"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:background="@drawable/btn_background"
-        android:text="@string/cont"
-        android:layout_gravity="bottom" />
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_address2"
+            android:backgroundTint="@color/light_blue"
+            android:layout_gravity="right"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="16dp" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginBottom="36dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/btn_background"
+            android:text="@string/cont" />
+    </LinearLayout>
 
 
 </FrameLayout>

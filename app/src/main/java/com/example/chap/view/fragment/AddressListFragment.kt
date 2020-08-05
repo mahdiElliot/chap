@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -51,9 +52,15 @@ class AddressListFragment : Fragment() {
         recyclerViewAdapter =
             AddressRecyclerViewAdapter(object : AddressRecyclerViewAdapter.Interaction {
                 override fun onItemSelected(position: Int, item: Address) {
-                    navController.navigate(R.id.action_addressListFragment_to_mapFragment)
+                    val bundle = bundleOf(
+                        "lng" to item.lng,
+                        "lat" to item.lat,
+                        "address" to item.address,
+                        "phone" to item.phone
+                    )
+                    navController.navigate(R.id.action_addressListFragment_to_mapFragment, bundle)
                 }
-            })
+            }, viewModel)
 
         rv_address.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -78,8 +85,8 @@ class AddressListFragment : Fragment() {
 //                }
 //            })
 //            recyclerViewAdapter.notifyDataSetChanged()
-            navController.navigate(R.id.action_addressListFragment_to_mapFragment)
-
+            val bundle = bundleOf("phone" to "09159880549")
+            navController.navigate(R.id.action_addressListFragment_to_mapFragment, bundle)
         }
 
     }

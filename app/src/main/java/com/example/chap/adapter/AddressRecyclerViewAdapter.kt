@@ -1,6 +1,7 @@
 package com.example.chap.adapter
 
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +11,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chap.R
 import com.example.chap.internal.DbAddressHelper
+import com.example.chap.internal.OnError
 import com.example.chap.model.Address
+import com.example.chap.viewModel.AddressListFragmentViewModel
 import kotlinx.android.synthetic.main.item_address.view.*
 
-class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
+class AddressRecyclerViewAdapter(
+    private val interaction: Interaction? = null,
+    private val viewModel: AddressListFragmentViewModel
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Address>() {
@@ -42,7 +48,8 @@ class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
                 parent,
                 false
             ),
-            interaction
+            interaction,
+            viewModel
         )
     }
 
@@ -65,7 +72,8 @@ class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
     class AddressViewHolder
     constructor(
         itemView: View,
-        private val interaction: Interaction?
+        private val interaction: Interaction?,
+        private val viewModel: AddressListFragmentViewModel
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Address, adapter: AddressRecyclerViewAdapter) = with(itemView) {
@@ -88,9 +96,14 @@ class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
                     val cp = ArrayList<Address>()
                     cp.addAll(adapter.differ.currentList)
                     if (cp.remove(item)) {
-                        val db = DbAddressHelper(context)
-                        db.deleteAddress(item.lat, item.lng)
-                        adapter.submitList(cp)
+                        if (viewModel.deleteAddress(item, object : OnError {
+                                override fun onError(errMsg: String?) {
+                                    Log.i("not deleted", errMsg!!)
+                                }
+                            })) {
+                            adapter.submitList(cp)
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                 }
                 builder.setNegativeButton("خیر") { dialog, _ -> dialog.cancel() }
