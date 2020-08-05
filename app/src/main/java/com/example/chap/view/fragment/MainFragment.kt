@@ -14,6 +14,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.example.chap.R
 import com.example.chap.view.activity.MainActivity
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -25,6 +26,8 @@ class MainFragment : Fragment(), View.OnClickListener {
     lateinit var btn_back: ImageView
     lateinit var layout_basket: LinearLayout
     lateinit var tv_address_title: TextView
+    lateinit var appBarLayout: AppBarLayout
+    lateinit var toolbar: Toolbar
 
     lateinit var act: MainActivity
 
@@ -41,6 +44,8 @@ class MainFragment : Fragment(), View.OnClickListener {
         btn_back = requireActivity().findViewById(R.id.btn_back)
         layout_basket = requireActivity().findViewById(R.id.layout_basket)
         tv_address_title = requireActivity().findViewById(R.id.tv_address_title)
+        appBarLayout = requireActivity().findViewById(R.id.appBarLayout)
+        toolbar = requireActivity().findViewById(R.id.toolbar)
 
         bottom_nav.visibility = View.VISIBLE
         iv_content.visibility = View.VISIBLE
@@ -63,6 +68,9 @@ class MainFragment : Fragment(), View.OnClickListener {
         act = activity as MainActivity
         act.currentFragment = 0
         act.navController = Navigation.findNavController(view)
+
+        toolbar.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
+        appBarLayout.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
 
         cv_print.setOnClickListener(this)
         cv_copy.setOnClickListener(this)
