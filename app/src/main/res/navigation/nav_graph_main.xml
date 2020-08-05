@@ -71,12 +71,8 @@
         android:label="fragment_address_list"
         tools:layout="@layout/fragment_address_list">
         <action
-            android:id="@+id/action_addressListFragment_to_editAddressFragment"
-            app:destination="@id/editAddressFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_addressListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/editAddressFragment"
@@ -87,7 +83,11 @@
         android:id="@+id/mapFragment"
         android:name="com.example.chap.view.fragment.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_mapFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editFragment"
         android:name="com.example.chap.view.fragment.EditFragment"

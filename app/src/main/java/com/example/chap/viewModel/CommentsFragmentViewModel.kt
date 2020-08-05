@@ -16,8 +16,8 @@ class CommentsFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
     val comments = MutableLiveData<ArrayList<Comment>>()
     val a = ArrayList<Comment>()
 
-    fun getCommnets(onError: OnError) {
-        CoroutineScope(Dispatchers.IO).launch {
+    fun getComments(onError: OnError) {
+        CoroutineScope(IO).launch {
 //            val res = apiService.getComments(onError)
 //            if (res != null) {
             MainScope().launch {
@@ -35,13 +35,13 @@ class CommentsFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
     fun sendComment(name: String, content: String, onError: OnError) {
         CoroutineScope(IO).launch {
 //            val res = apiService.addComment(content, replyId, onError)
+            a.add(Comment("2", name, content, "2/2/99"))
 //            if (res != null) {
             MainScope().launch {
-                a.add(Comment("2", name, content, "2/2/99"))
                 comments.value = a
 
-//                }
             }
+//            }
         }
     }
 }

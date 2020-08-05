@@ -31,8 +31,8 @@
         android:label="fragment_address_list"
         tools:layout="@layout/fragment_address_list">
         <action
-            android:id="@+id/action_addressListFragment_to_editAddressFragment2"
-            app:destination="@id/editAddressFragment" />
+            android:id="@+id/action_addressListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -44,4 +44,13 @@
         android:name="com.example.chap.view.fragment.EditAddressFragment"
         android:label="fragment_edit_address"
         tools:layout="@layout/fragment_edit_address" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.chap.view.fragment.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_mapFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
 </navigation>

@@ -1,0 +1,17 @@
+package com.example.chap.internal
+
+import android.app.Application
+import ir.map.sdk_map.Mapir
+import ir.map.servicesdk.MapirService
+
+const val API_MAP =
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjViYzQzOWZlZDc1YTgxN2Q0OTIyM2M2MDMzY2M0MWU3YjAzZTZhNzgwYjlmMTc2NTgyN2I2MjIwNWJkYzI0MTVjMDU0MGQ1MjlmNGM2NDkwIn0.eyJhdWQiOiI4MjA2IiwianRpIjoiNWJjNDM5ZmVkNzVhODE3ZDQ5MjIzYzYwMzNjYzQxZTdiMDNlNmE3ODBiOWYxNzY1ODI3YjYyMjA1YmRjMjQxNWMwNTQwZDUyOWY0YzY0OTAiLCJpYXQiOjE1ODM1MDM2ODQsIm5iZiI6MTU4MzUwMzY4NCwiZXhwIjoxNTg1OTE5Mjg0LCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.kdmmyhYq4sJ06boCUtGvqrGxFywtEPFKsrGsy_6fyQHFvGTTCbS8VV0ZtxJhjqRmAvboCDjaa2_s8BtVB_HSwWp7Pwcl8Vn0p-VrxgMaospmNKQyt4KIHuL_NADdkF2JKnY_GabWluN38UUN2V8UsJMAmO-7pjmGbi_4Ul0jG7dCcEw562W9AJ8syoDrLLHEFO71orWfK_kpHGA-Y59ntTiDQM8L5aS4CUqoFGh3x2RIOyNRm638rY7G9sFq4q1u_iVGnv9I_qSvi6elgjlz7smjvURHY2FfoSqrU3vtqA93SBiX56PvAD8bf9ONMNGnTk2BJlI0pZXRmRTmgvtgpQ"
+
+class MapController : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        Mapir.getInstance(this, API_MAP)
+        MapirService.init(baseContext, API_MAP)
+    }
+}

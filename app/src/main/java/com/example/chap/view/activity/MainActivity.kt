@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var currentFragment = 0
 
+
     private val fragments = listOf(
         BaseFragment.newInstance(
             R.layout.content_main_base,

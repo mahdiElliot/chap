@@ -14,6 +14,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -48,5 +50,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.yakivmospan:scytale:1.0.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'ir.map:map-sdk:4.0.0'
+    implementation 'ir.map.servicesdk:service-sdk-ktx:4.0.3'
 
 }

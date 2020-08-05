@@ -1,6 +1,7 @@
 package com.example.chap.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,8 +34,6 @@ class CommentsFragment : Fragment() {
     lateinit var btn_back: ImageView
     lateinit var layout_basket: LinearLayout
     lateinit var tv_address_title: TextView
-
-    private lateinit var foundComments: ArrayList<Comment>
 
     lateinit var act: MainActivity
 
@@ -75,8 +74,6 @@ class CommentsFragment : Fragment() {
         act = activity as MainActivity
         act.navController2 = Navigation.findNavController(view)
 
-        foundComments = ArrayList()
-
         recyclerViewAdapter =
             CommentsRecyclerViewAdapter(
                 object : CommentsRecyclerViewAdapter.Interaction {
@@ -92,12 +89,13 @@ class CommentsFragment : Fragment() {
 
         progressbar.visibility = View.VISIBLE
 
-        commentsViewModel.getCommnets(object : OnError {
-            override fun onError(errMsg: String?) {
-                progressbar.visibility = View.GONE
-                btn_retry.visibility = View.VISIBLE
-            }
-        })
+        if (commentsViewModel.comments.value == null)
+            commentsViewModel.getComments(object : OnError {
+                override fun onError(errMsg: String?) {
+                    progressbar.visibility = View.GONE
+                    btn_retry.visibility = View.VISIBLE
+                }
+            })
 
         commentsViewModel.comments.observe(viewLifecycleOwner, Observer {
             recyclerViewAdapter.submitList(it)
@@ -108,7 +106,7 @@ class CommentsFragment : Fragment() {
         btn_retry.setOnClickListener {
             progressbar.visibility = View.VISIBLE
             btn_retry.visibility = View.GONE
-            commentsViewModel.getCommnets(object : OnError {
+            commentsViewModel.getComments(object : OnError {
                 override fun onError(errMsg: String?) {
                     progressbar.visibility = View.GONE
                     btn_retry.visibility = View.VISIBLE

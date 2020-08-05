@@ -1,12 +1,15 @@
 package com.example.chap.adapter
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chap.R
+import com.example.chap.internal.DbAddressHelper
 import com.example.chap.model.Address
 import kotlinx.android.synthetic.main.item_address.view.*
 
@@ -66,6 +69,10 @@ class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Address, adapter: AddressRecyclerViewAdapter) = with(itemView) {
+            setOnClickListener {
+                interaction?.onItemSelected(adapterPosition, item)
+            }
+
             iv_edit_address.setOnClickListener {
                 interaction?.onItemSelected(
                     adapterPosition,
@@ -74,8 +81,23 @@ class AddressRecyclerViewAdapter(private val interaction: Interaction? = null) :
             }
 
             iv_delete.setOnClickListener {
-                adapter.differ.currentList.remove(item)
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("آیا از حذف اطمینان دارید ؟‌")
+                builder.setCancelable(true)
+                builder.setPositiveButton("بله") { _, _ ->
+                    val cp = ArrayList<Address>()
+                    cp.addAll(adapter.differ.currentList)
+                    if (cp.remove(item)) {
+                        val db = DbAddressHelper(context)
+                        db.deleteAddress(item.lat, item.lng)
+                        adapter.submitList(cp)
+                    }
+                }
+                builder.setNegativeButton("خیر") { dialog, _ -> dialog.cancel() }
+
+                builder.create().show()
             }
+
             tv_address.text = item.address
         }
 
