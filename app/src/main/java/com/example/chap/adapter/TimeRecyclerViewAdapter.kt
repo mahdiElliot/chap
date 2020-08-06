@@ -1,17 +1,25 @@
 package com.example.chap.adapter
 
+import android.content.res.TypedArray
+import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.withStyledAttributes
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chap.R
 import com.example.chap.model.DateTime
+import com.example.chap.viewModel.CpPbFormFragmentViewModel
 import kotlinx.android.synthetic.main.item_time.view.*
 
-class TimeRecyclerViewAdapter(private val interaction: Interaction? = null) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeRecyclerViewAdapter(
+    private val interaction: Interaction? = null,
+    private val viewModel: CpPbFormFragmentViewModel
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DateTime>() {
         override fun areItemsTheSame(oldItem: DateTime, newItem: DateTime): Boolean {
@@ -32,7 +40,8 @@ class TimeRecyclerViewAdapter(private val interaction: Interaction? = null) :
                 parent,
                 false
             ),
-            interaction
+            interaction,
+            viewModel
         )
     }
 
@@ -55,7 +64,8 @@ class TimeRecyclerViewAdapter(private val interaction: Interaction? = null) :
     class TimeViewHolder
     constructor(
         itemView: View,
-        private val interaction: Interaction?
+        private val interaction: Interaction?,
+        private val viewModel: CpPbFormFragmentViewModel
     ) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: DateTime, adapter: TimeRecyclerViewAdapter) = with(itemView) {
             setOnClickListener {
@@ -66,8 +76,8 @@ class TimeRecyclerViewAdapter(private val interaction: Interaction? = null) :
                     }
                 adapter.differ.currentList[adapterPosition].isChosen = true
                 radio_time.isChecked = true
-
                 interaction?.onItemSelected(adapterPosition, item)
+                viewModel.positionChecked.value = adapterPosition
             }
             radio_time.setOnClickListener {
                 for (i in 0 until adapter.differ.currentList.size)
@@ -77,9 +87,15 @@ class TimeRecyclerViewAdapter(private val interaction: Interaction? = null) :
                     }
                 adapter.differ.currentList[adapterPosition].isChosen = true
                 interaction?.onItemSelected(adapterPosition, item)
+                viewModel.positionChecked.value = adapterPosition
             }
 
-            radio_time.isChecked = item.isChosen
+            if (viewModel.switch.value == true || viewModel.switch.value == null)
+                radio_time.setButtonDrawable(R.drawable.radiobutton_drawable)
+            else
+                radio_time.setButtonDrawable(R.drawable.radiobutton3_drawable)
+
+            radio_time.isChecked = viewModel.positionChecked.value == adapterPosition
 
             tv_date.text = item.date
             tv_time.text = item.hour

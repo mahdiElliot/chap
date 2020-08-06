@@ -6,8 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.CpPbFormFragment"
     android:background="@color/grey"
-    android:paddingTop="12dp"
-    android:paddingBottom="16dp">
+    android:paddingTop="12dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guide_1"
@@ -35,8 +34,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:itemCount="4"
+            android:layout_height="100dp"
+            tools:itemCount="3"
+            android:orientation="horizontal"
             tools:listitem="@layout/item_time" />
     </FrameLayout>
 
@@ -84,7 +84,7 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="12sp"
-            tools:text="something.pdf" />
+            android:text="فایل ( عکس یا پی دی اف )" />
 
 
     </LinearLayout>
@@ -164,7 +164,7 @@
         app:layout_constraintEnd_toEndOf="@id/guide_2"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/btn_background"
-        android:layout_marginTop="16dp" />
+        android:layout_marginBottom="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

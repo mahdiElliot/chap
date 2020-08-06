@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 class CpPbFormFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
 
     val times = MutableLiveData<ArrayList<DateTime>>()
+    val positionChecked = MutableLiveData<Int>()
+    val switch = MutableLiveData<Boolean>().apply { true }
 
     fun getTimes(onError: OnError) {
         CoroutineScope(IO).launch {

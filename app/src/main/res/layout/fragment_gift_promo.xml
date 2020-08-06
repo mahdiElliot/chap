@@ -61,7 +61,7 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="12sp"
-            tools:text="something.pdf" />
+            android:text="فایل ( عکس یا پی دی اف )" />
 
         <ImageView
             android:layout_width="25dp"
