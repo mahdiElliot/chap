@@ -25,6 +25,9 @@ class ViewModelsFactory(private val sharedPref: SharedPref, val context: Context
             modelClass.isAssignableFrom(AddressListFragmentViewModel::class.java) -> AddressListFragmentViewModel(
                 sharedPref, context!!
             ) as T
+            modelClass.isAssignableFrom(CpPbFormFragmentViewModel::class.java) -> CpPbFormFragmentViewModel(
+                sharedPref
+            ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")
         }
     }
