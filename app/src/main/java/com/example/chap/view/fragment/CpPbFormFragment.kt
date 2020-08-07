@@ -1,6 +1,8 @@
 package com.example.chap.view.fragment
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -9,6 +11,7 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +20,7 @@ import android.widget.ImageView
 import android.widget.Toast
 
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -52,6 +56,8 @@ class CpPbFormFragment : Fragment() {
     private var tempF: File? = null
     private var tempF2: File? = null
 
+    private var form = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,7 +71,7 @@ class CpPbFormFragment : Fragment() {
         viewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                ViewModelsFactory(SharedPref(requireContext()), context)
+                ViewModelsFactory(SharedPref(requireContext()))
             ).get(CpPbFormFragmentViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_cp_pb_form, container, false)
@@ -75,27 +81,38 @@ class CpPbFormFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val form = requireArguments().getInt("form")
+        form = requireArguments().getInt("form")
 
-        frame_time.visibility = if (form == 1) View.GONE else View.VISIBLE
-
-
-        if (tempF2 == null) {
-            tv_upload.setTextColor(resources.getColor(R.color.black))
-//            tv_upload.textSize = resources.getDimension(R.dimen.text_size1)
-        } else {
-            tv_upload.setTextColor(resources.getColor(R.color.colorPrimaryDark))
-//            tv_upload.textSize = resources.getDimension(R.dimen.text_size2)
+        if (form == 1) {
+            frame_time.visibility = View.GONE
+            layout_upload.visibility = View.VISIBLE
+        } else if (form == 2) {
+            frame_time.visibility = View.VISIBLE
+            layout_upload.visibility = View.GONE
         }
+
+//        showDialog(form)
+
+        tempF = viewModel.file1.value
+        tempF2 = viewModel.file2.value
+
+        if (form == 1)
+            iv_tick.visibility = if (tempF == null) View.GONE else View.VISIBLE
 
         switch_type.setOnClickListener { switch() }
 
 
-        if (form != 1) {
+        var time = ""
+        if (form == 2) {
             recyclerViewAdapter =
                 TimeRecyclerViewAdapter(object : TimeRecyclerViewAdapter.Interaction {
                     override fun onItemSelected(position: Int, item: DateTime) {
-
+                        if (viewModel.positionChecked.value == -1)
+                            time = ""
+                        else {
+                            time = "${item.date}   "
+                            time += item.hour
+                        }
                     }
                 }, viewModel)
 
@@ -162,7 +179,25 @@ class CpPbFormFragment : Fragment() {
 
         }
 
+        val navController = Navigation.findNavController(view)
         btn_continue.setOnClickListener {
+            if (form == 1 && tempF == null)
+                Toast.makeText(context, "لطفا فایلی را انتخاب کنید", Toast.LENGTH_LONG).show()
+            else if (form == 2 && time == "")
+                Toast.makeText(context, "لطفا زمانی را انتخاب کنید", Toast.LENGTH_LONG).show()
+            else {
+                val sharedP =
+                    requireActivity().getSharedPreferences("cp_pb", Context.MODE_PRIVATE)
+                val editor = sharedP.edit()
+                editor.putInt("form", 1)
+                editor.putString("time", time)
+                editor.putString("file1", tempF?.absolutePath)
+                editor.putString("file2", tempF2?.absolutePath)
+                editor.putBoolean("switch", switch_type.isChecked)
+                editor.putString("desc", et_description.text.toString())
+                editor.apply()
+                navController.navigate(R.id.action_cpPbFormFragment_to_addressListFragment)
+            }
 //                Mailer.sendMail("mahdimn2011@yahoo.com",
 //                    "subject test", "text test", tempF.absolutePath)
 //                    .subscribeOn(Schedulers.io())
@@ -175,6 +210,13 @@ class CpPbFormFragment : Fragment() {
 //                })
         }
 
+
+        et_description.setText(viewModel.description.value)
+
+        et_description.doOnTextChanged { text, start, before, count ->
+            viewModel.description.value = text.toString()
+        }
+
     }
 
     private fun switch() {
@@ -185,19 +227,40 @@ class CpPbFormFragment : Fragment() {
             appBarLayout.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
             btn_back.setImageResource(R.drawable.ic_back)
             iv_basket.setImageResource(R.drawable.ic_basket)
-            btn_upload.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
+            if (form == 1)
+                btn_upload.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
             switch_type.trackDrawable = resources.getDrawable(R.drawable.switch_background)
         } else {
             toolbar.setBackgroundColor(resources.getColor(R.color.darkGrey))
             appBarLayout.setBackgroundColor(resources.getColor(R.color.darkGrey))
             btn_back.setImageResource(R.drawable.ic_back_white)
             iv_basket.setImageResource(R.drawable.ic_basket_white)
-            btn_upload.setBackgroundColor(resources.getColor(R.color.darkGrey))
+            if (form == 1)
+                btn_upload.setBackgroundColor(resources.getColor(R.color.darkGrey))
             switch_type.trackDrawable = resources.getDrawable(R.drawable.switch_background2)
         }
 
-        if (frame_time.visibility == View.VISIBLE)
+        if (form == 2)
             recyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    private fun showDialog(form: Int) {
+        if (form != 1 && viewModel.first.value!!) {
+            val alertDialog: AlertDialog? = requireActivity().let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setPositiveButton("تایید", { dialog, id ->
+                    })
+                }
+
+                builder.setMessage(" اگر نیاز به کپی کتاب یا جزوه ای دارید که باید به صورت فیزیکی تحویل دهید، زمانی را جهت تحویل انتخاب کنید")
+                builder.create()
+            }
+
+            alertDialog?.show()
+
+            viewModel.first.value = false
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -217,12 +280,14 @@ class CpPbFormFragment : Fragment() {
                 } else {
                     tempF2 = File.createTempFile("file", ".png")
                     FileUtils.copyInputStreamToFile(inp, tempF2)
+                    viewModel.file2.value = tempF2
                     File.createTempFile("", ".pdf")
                 }
 
             FileUtils.copyInputStreamToFile(inp, tempF)
-            tv_upload.setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            tv_upload.textSize = resources.getDimension(R.dimen.text_size2)
+            viewModel.file1.value = tempF
+            if (form == 1)
+                iv_tick.visibility = View.VISIBLE
         }
     }
 

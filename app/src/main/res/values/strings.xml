@@ -42,4 +42,12 @@
     <string name="new_pass">پسورد جدید</string>
     <string name="new_pass_repeat">تکرار پسورد جدید</string>
     <string name="notEqual_pass">پسورد نابرابر</string>
+    <string name="print_service">خدمات چاپ دیجیتال</string>
+    <string name="print_service_description">فایلی جهت چاپ دارید؟ فایل خود را آپلود کنید!</string>
+    <string name="copy_service">خدمات کپی و تکثیر</string>
+    <string name="copy_service_description">کتاب یا جزوه ای برای کپی کردن دارید؟ زمانی را مشخص کنید تا از شما تحویل بگیریم و کپی آن را تحویل دهیم</string>
+    <string name="gift_service">خدمات کارت هدیه</string>
+    <string name="gift_service_description">کارت هدیه و گیفت با طرح های مختلف یا طرح خودتان انتخاب کنید</string>
+    <string name="promo_service">خدمات تبلیغاتی</string>
+    <string name="promo_service_description">این خدمات به شما پیشنهاد می‌شود</string>
 </resources>

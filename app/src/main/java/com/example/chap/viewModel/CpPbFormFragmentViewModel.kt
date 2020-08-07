@@ -9,12 +9,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import java.io.File
 
 class CpPbFormFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
 
     val times = MutableLiveData<ArrayList<DateTime>>()
-    val positionChecked = MutableLiveData<Int>()
-    val switch = MutableLiveData<Boolean>().apply { true }
+    val positionChecked = MutableLiveData<Int>().apply { value = -1 }
+    val switch = MutableLiveData<Boolean>().apply { value = true }
+    val description = MutableLiveData<String>()
+    val file1 = MutableLiveData<File>()
+    val file2 = MutableLiveData<File>()
+    val first = MutableLiveData<Boolean>().apply { value = true }
 
     fun getTimes(onError: OnError) {
         CoroutineScope(IO).launch {
@@ -23,6 +28,9 @@ class CpPbFormFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
             MainScope().launch {
 //                    times.value = res
                 times.value = arrayListOf(
+                    DateTime("18:30", "12/9/99"),
+                    DateTime("18:30", "12/9/99"),
+                    DateTime("18:30", "12/9/99"),
                     DateTime("18:30", "12/9/99"),
                     DateTime("18:30", "12/9/99"),
                     DateTime("18:30", "12/9/99"),

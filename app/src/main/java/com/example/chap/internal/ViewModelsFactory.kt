@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.chap.viewModel.*
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelsFactory(private val sharedPref: SharedPref, val context: Context? = null) :
+class ViewModelsFactory(private val sharedPref: SharedPref) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
@@ -23,9 +23,15 @@ class ViewModelsFactory(private val sharedPref: SharedPref, val context: Context
                 sharedPref
             ) as T
             modelClass.isAssignableFrom(AddressListFragmentViewModel::class.java) -> AddressListFragmentViewModel(
-                sharedPref, context!!
+                sharedPref
             ) as T
             modelClass.isAssignableFrom(CpPbFormFragmentViewModel::class.java) -> CpPbFormFragmentViewModel(
+                sharedPref
+            ) as T
+            modelClass.isAssignableFrom(GiftPromoFragmentViewModel::class.java) -> GiftPromoFragmentViewModel(
+                sharedPref
+            ) as T
+            modelClass.isAssignableFrom(MapFragmentViewModel::class.java) -> MapFragmentViewModel(
                 sharedPref
             ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")

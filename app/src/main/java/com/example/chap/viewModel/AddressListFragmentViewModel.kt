@@ -13,17 +13,16 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class AddressListFragmentViewModel(sharedPref: SharedPref, context: Context) : ViewModel() {
+class AddressListFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
 
     val addresses = MutableLiveData<ArrayList<Address>>()
     private var adrs = ArrayList<Address>()
-    val db = DbAddressHelper(context)
+    val db = DbAddressHelper(sharedPref.context)
 
     fun getAddresses(onError: OnError) {
         CoroutineScope(IO).launch {
             if (adrs.isEmpty())
                 adrs = db.getAll()
-            Log.i("fuck", adrs.toString())
             MainScope().launch {
                 addresses.value = adrs
             }
@@ -32,13 +31,13 @@ class AddressListFragmentViewModel(sharedPref: SharedPref, context: Context) : V
     }
 
     fun saveAddress(address: Address, onError: OnError) {
-        CoroutineScope(IO).launch {
-            if (db.save(address))
-                adrs.add(address)
-            MainScope().launch {
-                addresses.value = adrs
-            }
-        }
+//        CoroutineScope(IO).launch {
+        if (db.save(address))
+            adrs.add(address)
+//            MainScope().launch {
+        addresses.value = adrs
+//            }
+//        }
     }
 
     fun deleteAddress(address: Address, onError: OnError): Boolean {
@@ -56,8 +55,6 @@ class AddressListFragmentViewModel(sharedPref: SharedPref, context: Context) : V
 
 //            }
 //        }
-
-        return d
     }
 
 }

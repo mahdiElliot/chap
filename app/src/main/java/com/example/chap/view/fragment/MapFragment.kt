@@ -12,8 +12,12 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.chap.R
+import com.example.chap.internal.SharedPref
+import com.example.chap.internal.ViewModelsFactory
+import com.example.chap.viewModel.MapFragmentViewModel
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.geojson.Point
@@ -49,11 +53,19 @@ class MapFragment : Fragment() {
     private var customLocationComponentOptions: LocationComponentOptions? = null
     private val mapService = MapService()
 
+    lateinit var viewModel: MapFragmentViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        viewModel =
+            ViewModelProviders.of(
+                requireActivity(),
+                ViewModelsFactory(SharedPref(requireContext()))
+            ).get(MapFragmentViewModel::class.java)
+
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
@@ -78,6 +90,7 @@ class MapFragment : Fragment() {
                     symbolManager!!.iconAllowOverlap = true
                     symbolManager!!.iconRotationAlignment = ICON_ROTATION_ALIGNMENT_VIEWPORT
 
+
                     if (lg != -182f && lt != -86f) {
                         map!!.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
@@ -90,6 +103,23 @@ class MapFragment : Fragment() {
                         )
 
                         addSymbolToMap(LatLng(lt.toDouble(), lg.toDouble()))
+                    } else if (viewModel.longitude.value != -182f && viewModel.latitude.value != -86f) {
+                        map!!.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    viewModel.latitude.value!!.toDouble(),
+                                    viewModel.longitude.value!!.toDouble()
+                                ),
+                                15.0
+                            )
+                        )
+
+                        addSymbolToMap(
+                            LatLng(
+                                viewModel.latitude.value!!.toDouble(),
+                                viewModel.longitude.value!!.toDouble()
+                            )
+                        )
                     } else {
                         map!!.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
@@ -129,6 +159,11 @@ class MapFragment : Fragment() {
                                 "lng" to symbol!!.latLng.longitude.toFloat(),
                                 "phone" to phone
                             )
+                            if (lg != -182f && lt != -86f)
+                                bundle.putBoolean("add", false)
+                            else
+                                bundle.putBoolean("add", true)
+
                             navController.navigate(
                                 R.id.action_mapFragment_to_editAddressFragment,
                                 bundle
@@ -165,12 +200,13 @@ class MapFragment : Fragment() {
                         .accuracyAlpha(0.6f)
                         .accuracyColor(Color.TRANSPARENT).build()
 
-                val locationComponentActivationOptions =
-                    LocationComponentActivationOptions.builder(requireContext(), mapStyle!!)
-                        .locationComponentOptions(customLocationComponentOptions).build()
-
-                locationComponent.activateLocationComponent(locationComponentActivationOptions)
             }
+
+            val locationComponentActivationOptions =
+                LocationComponentActivationOptions.builder(requireContext(), mapStyle!!)
+                    .locationComponentOptions(customLocationComponentOptions).build()
+
+            locationComponent.activateLocationComponent(locationComponentActivationOptions)
 
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),
@@ -201,7 +237,7 @@ class MapFragment : Fragment() {
                             locationComponent.lastKnownLocation!!.latitude,
                             locationComponent.lastKnownLocation!!.longitude
                         ),
-                        24.0
+                        20.0
                     )
                 )
             else
@@ -246,6 +282,8 @@ class MapFragment : Fragment() {
         if (symbol != null)
             symbolManager!!.delete(symbol)
         symbol = symbolManager!!.create(symbolOptions)
+        viewModel.latitude.value = symbol!!.latLng.latitude.toFloat()
+        viewModel.longitude.value = symbol!!.latLng.longitude.toFloat()
     }
 
     override fun onStart() {

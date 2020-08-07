@@ -13,10 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layoutDirection="rtl">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -25,7 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="@string/address_description" />
 
         <LinearLayout
@@ -46,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:gravity="left"
+                android:textSize="14sp"
                 android:paddingRight="8dp"
                 android:paddingLeft="8dp" />
 
@@ -67,12 +67,24 @@
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:paddingRight="8dp"
                 android:paddingLeft="8dp" />
         </LinearLayout>
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/progressbar"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/btn_save"

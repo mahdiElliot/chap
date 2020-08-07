@@ -13,24 +13,24 @@
         <action
             android:id="@+id/action_mainFragment_to_cpPbFormFragment"
             app:destination="@id/cpPbFormFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_giftPromoFragment"
             app:destination="@id/giftPromoFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_addressListFragment"
             app:destination="@id/addressListFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_editFragment"
             app:destination="@id/editFragment"
@@ -45,8 +45,8 @@
         android:label="fragment_cp_pb_form"
         tools:layout="@layout/fragment_cp_pb_form">
         <action
-            android:id="@+id/action_cpPbFormFragment_to_mapFragment"
-            app:destination="@id/mapFragment"
+            android:id="@+id/action_cpPbFormFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -58,8 +58,8 @@
         android:label="fragment_gift_promo"
         tools:layout="@layout/fragment_gift_promo">
         <action
-            android:id="@+id/action_giftPromoFragment_to_mapFragment"
-            app:destination="@id/mapFragment"
+            android:id="@+id/action_giftPromoFragment_to_addressListFragment"
+            app:destination="@id/addressListFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"

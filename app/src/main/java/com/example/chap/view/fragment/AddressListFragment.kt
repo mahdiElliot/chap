@@ -36,7 +36,7 @@ class AddressListFragment : Fragment() {
         viewModel =
             ViewModelProviders.of(
                 requireActivity(),
-                ViewModelsFactory(SharedPref(requireContext()), context)
+                ViewModelsFactory(SharedPref(requireContext()))
             ).get(AddressListFragmentViewModel::class.java)
 
 

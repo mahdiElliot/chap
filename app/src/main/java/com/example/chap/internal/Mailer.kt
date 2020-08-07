@@ -19,13 +19,13 @@ object Mailer {
     @SuppressLint("checkResult")
     fun sendMail(
         email: String,
-        subject: String,
         colorful: Boolean,
         phone: String,
         address: String,
-        fileName: String,
-        fileName2: String?,
-        description: String?
+        time: String? = "",
+        fileName: String? = "",
+        fileName2: String? = "",
+        description: String? = ""
     ): Completable {
         return Completable.create { emitter ->
 
@@ -49,22 +49,38 @@ object Mailer {
 
                     mime.addRecipient(Message.RecipientType.TO, InternetAddress(email))
 
-                    mime.subject = subject
+                    mime.subject = "خدمات کپی و تکثیر یا چاپ"
+
                     var text = "$description\n\n"
-                    text += "نوع چاپ:"
-                    text += if (colorful) text + "رنگی\n" else text + "سیاه و سفید\n"
+                    text += "نوع چاپ: "
+                    text += if (colorful) "رنگی\n" else "سیاه و سفید\n"
                     text += "شماره تلفن: $phone\n"
                     text += "آدرس:  $address\n"
-                    mime.setText(description)
+                    if (time != "")
+                        text += "زمان: $time"
 
-                    val messageBodyPart = MimeBodyPart()
-
-                    val path = File(fileName)
-                    val source = FileDataSource(path)
-                    messageBodyPart.dataHandler = DataHandler(source)
-                    messageBodyPart.fileName = fileName
                     val multipart = MimeMultipart()
-                    multipart.addBodyPart(messageBodyPart)
+
+                    val message = MimeBodyPart()
+                    message.setText(text)
+                    multipart.addBodyPart(message)
+
+                    if (fileName != "" || !fileName.isNullOrEmpty()) {
+                        val messageBodyPart = MimeBodyPart()
+                        val source = FileDataSource(File(fileName!!))
+                        messageBodyPart.dataHandler = DataHandler(source)
+                        messageBodyPart.fileName = fileName
+                        multipart.addBodyPart(messageBodyPart)
+                    }
+
+                    if (fileName2 != "" || !fileName2.isNullOrEmpty()) {
+                        val messageBodyPart = MimeBodyPart()
+                        val source = FileDataSource(File(fileName2!!))
+                        messageBodyPart.dataHandler = DataHandler(source)
+                        messageBodyPart.fileName = fileName2
+                        multipart.addBodyPart(messageBodyPart)
+                    }
+
                     mime.setContent(multipart)
                     Transport.send(mime)
                 }

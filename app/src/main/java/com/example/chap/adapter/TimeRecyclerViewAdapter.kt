@@ -68,34 +68,38 @@ class TimeRecyclerViewAdapter(
         private val viewModel: CpPbFormFragmentViewModel
     ) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: DateTime, adapter: TimeRecyclerViewAdapter) = with(itemView) {
-            setOnClickListener {
-                for (i in 0 until adapter.differ.currentList.size)
-                    if (i != adapterPosition && adapter.differ.currentList[i].isChosen) {
-                        adapter.differ.currentList[i].isChosen = false
-                        adapter.notifyItemChanged(i)
-                    }
-                adapter.differ.currentList[adapterPosition].isChosen = true
-                radio_time.isChecked = true
-                interaction?.onItemSelected(adapterPosition, item)
-                viewModel.positionChecked.value = adapterPosition
-            }
+            setOnClickListener { radio_time.performClick() }
+
             radio_time.setOnClickListener {
                 for (i in 0 until adapter.differ.currentList.size)
                     if (i != adapterPosition && adapter.differ.currentList[i].isChosen) {
                         adapter.differ.currentList[i].isChosen = false
                         adapter.notifyItemChanged(i)
                     }
+
                 adapter.differ.currentList[adapterPosition].isChosen = true
-                interaction?.onItemSelected(adapterPosition, item)
                 viewModel.positionChecked.value = adapterPosition
+                interaction?.onItemSelected(adapterPosition, item)
+                iv_cancel.visibility = View.VISIBLE
             }
 
-            if (viewModel.switch.value == true || viewModel.switch.value == null)
+            iv_cancel.setOnClickListener {
+                radio_time.isChecked = false
+                iv_cancel.visibility = View.GONE
+                adapter.differ.currentList[adapterPosition].isChosen = false
+                viewModel.positionChecked.value = -1
+                interaction?.onItemSelected(adapterPosition, item)
+            }
+
+            if (viewModel.switch.value == true)
                 radio_time.setButtonDrawable(R.drawable.radiobutton_drawable)
             else
                 radio_time.setButtonDrawable(R.drawable.radiobutton3_drawable)
 
             radio_time.isChecked = viewModel.positionChecked.value == adapterPosition
+
+            iv_cancel.visibility = if (viewModel.positionChecked.value == adapterPosition)
+                View.VISIBLE else View.GONE
 
             tv_date.text = item.date
             tv_time.text = item.hour
