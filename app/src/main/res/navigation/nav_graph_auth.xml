@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.chap.view.fragment.SignInFragment"
+        android:name="com.example.chap.view.fragment.LogInFragment"
         android:label="fragment_login_in"
         tools:layout="@layout/fragment_login_in" />
 </navigation>

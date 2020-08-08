@@ -19,7 +19,6 @@ class CpPbFormFragmentViewModel(sharedPref: SharedPref) : ViewModel() {
     val description = MutableLiveData<String>()
     val file1 = MutableLiveData<File>()
     val file2 = MutableLiveData<File>()
-    val first = MutableLiveData<Boolean>().apply { value = true }
 
     fun getTimes(onError: OnError) {
         CoroutineScope(IO).launch {

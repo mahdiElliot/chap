@@ -19,12 +19,11 @@ import com.example.chap.view.activity.MainActivity
 import com.example.chap.viewModel.AuthActivityViewModel
 
 
-class SignInFragment : Fragment() {
+class LogInFragment : Fragment() {
 
 
     lateinit var authActivityViewModel: AuthActivityViewModel
 
-    private var mLastClickTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -64,9 +64,9 @@ class EditAddressFragment : Fragment() {
             else if (number.isEmpty() || number.length != 11)
                 Toast.makeText(context, "شماره تلفن باید ۱۱ رقم باشد", Toast.LENGTH_LONG).show()
             else {
-                val sharedP = requireActivity().getSharedPreferences("cp_pb", Context.MODE_PRIVATE)
+                val sharedP = requireActivity().getSharedPreferences("forms", Context.MODE_PRIVATE)
                 val isForm = sharedP.getInt("form", 0)
-                if (isForm == 1) {
+                if (isForm != 0) {
                     val builder = AlertDialog.Builder(context)
                     builder.setMessage("درصورت اطمینان از صحت اطلاعات درخواست شما ثبت خواهد شد‌")
                     builder.setCancelable(true)
@@ -74,15 +74,17 @@ class EditAddressFragment : Fragment() {
                         progressbar.visibility = View.VISIBLE
 
                         if (save(lat, lng, txt, number)) {
-                            send(sharedP, txt, number)
+                            if (isForm == 1)
+                                send(sharedP, txt, number)
+                            else
+                                send2(sharedP, txt, number)
+
                             setTimer()
                         } else
                             showDialog("متاسفانه درخواست ثبت نشد. دوباره سعی کنید")
                     }
                     builder.setNegativeButton("خیر") { dialog, _ -> dialog.cancel() }
                     builder.create().show()
-
-                } else if (isForm == 2) {
 
                 } else if (save(lat, lng, txt, number)) {
                     requireActivity().onBackPressed()
@@ -165,6 +167,52 @@ class EditAddressFragment : Fragment() {
                 })
     }
 
+
+    @SuppressLint("CheckResult")
+    private fun send2(sharedP: SharedPreferences, address: String, number: String) {
+        val url = sharedP.getString("url", "")
+        val file1 = sharedP.getString("file1", "")
+        val file2 = sharedP.getString("file2", "")
+        val description = sharedP.getString("desc", "")
+
+        Mailer.sendMail2(
+            Config.RECEIVER,
+            number,
+            address,
+            url,
+            file1,
+            file2,
+            description
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                t.cancel()
+                if (progressbar != null)
+                    progressbar.visibility = View.GONE
+
+                showDialog(" درخواست شماثبت شد. درباره هزینه و سایر جزئیات به زودی به شما اطلاع داده خواهد شد")
+                val editor = sharedP.edit()
+                editor?.putInt("form", 0)
+                editor?.apply()
+                requireActivity().onBackPressed()
+                requireActivity().onBackPressed()
+                requireActivity().onBackPressed()
+                requireActivity().onBackPressed()
+
+                btn_save.isClickable = true
+            },
+                {
+                    t.cancel()
+                    if (progressbar != null)
+                        progressbar.visibility = View.GONE
+                    Log.i("didNot", "did not")
+
+                    showDialog("متاسفانه درخواست ثبت نشد. دوباره سعی کنید")
+                    btn_save.isClickable = true
+
+                })
+    }
 
     private fun showDialog(text: String) {
         val alertDialog: AlertDialog? = requireActivity().let {

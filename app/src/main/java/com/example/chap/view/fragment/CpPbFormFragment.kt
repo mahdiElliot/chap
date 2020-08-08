@@ -4,14 +4,8 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.DocumentsContract
-import android.provider.MediaStore
-import android.util.Log
-import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -83,36 +77,22 @@ class CpPbFormFragment : Fragment() {
 
         form = requireArguments().getInt("form")
 
+        var time = ""
         if (form == 1) {
             frame_time.visibility = View.GONE
             layout_upload.visibility = View.VISIBLE
+            iv_tick.visibility = if (tempF == null) View.GONE else View.VISIBLE
         } else if (form == 2) {
             frame_time.visibility = View.VISIBLE
             layout_upload.visibility = View.GONE
-        }
 
-//        showDialog(form)
-
-        tempF = viewModel.file1.value
-        tempF2 = viewModel.file2.value
-
-        if (form == 1)
-            iv_tick.visibility = if (tempF == null) View.GONE else View.VISIBLE
-
-        switch_type.setOnClickListener { switch() }
-
-
-        var time = ""
-        if (form == 2) {
+            //recyclerView
             recyclerViewAdapter =
                 TimeRecyclerViewAdapter(object : TimeRecyclerViewAdapter.Interaction {
                     override fun onItemSelected(position: Int, item: DateTime) {
-                        if (viewModel.positionChecked.value == -1)
-                            time = ""
-                        else {
-                            time = "${item.date}   "
-                            time += item.hour
-                        }
+                        time = if (viewModel.positionChecked.value == -1)
+                            ""
+                        else "${item.date}   ${item.hour}"
                     }
                 }, viewModel)
 
@@ -132,6 +112,13 @@ class CpPbFormFragment : Fragment() {
             })
         }
 
+//        showDialog(form)
+
+        tempF = viewModel.file1.value
+        tempF2 = viewModel.file2.value
+
+        switch_type.setOnClickListener { switch() }
+
 
         viewModel.switch.observe(viewLifecycleOwner, Observer {
             switch_type.isChecked = it
@@ -141,14 +128,14 @@ class CpPbFormFragment : Fragment() {
                 appBarLayout.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
                 btn_back.setImageResource(R.drawable.ic_back)
                 iv_basket.setImageResource(R.drawable.ic_basket)
-                btn_upload.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
+                btn_upload.setCardBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
                 switch_type.trackDrawable = resources.getDrawable(R.drawable.switch_background)
             } else {
                 toolbar.setBackgroundColor(resources.getColor(R.color.darkGrey))
                 appBarLayout.setBackgroundColor(resources.getColor(R.color.darkGrey))
                 btn_back.setImageResource(R.drawable.ic_back_white)
                 iv_basket.setImageResource(R.drawable.ic_basket_white)
-                btn_upload.setBackgroundColor(resources.getColor(R.color.darkGrey))
+                btn_upload.setCardBackgroundColor(resources.getColor(R.color.darkGrey))
                 switch_type.trackDrawable = resources.getDrawable(R.drawable.switch_background2)
             }
         })
@@ -164,7 +151,7 @@ class CpPbFormFragment : Fragment() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 intent.type = "*/*"
-//                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
             } else {
                 var mimeStr = ""
                 for (mime in mimeTypes)
@@ -187,7 +174,7 @@ class CpPbFormFragment : Fragment() {
                 Toast.makeText(context, "لطفا زمانی را انتخاب کنید", Toast.LENGTH_LONG).show()
             else {
                 val sharedP =
-                    requireActivity().getSharedPreferences("cp_pb", Context.MODE_PRIVATE)
+                    requireActivity().getSharedPreferences("forms", Context.MODE_PRIVATE)
                 val editor = sharedP.edit()
                 editor.putInt("form", 1)
                 editor.putString("time", time)
@@ -244,24 +231,24 @@ class CpPbFormFragment : Fragment() {
             recyclerViewAdapter.notifyDataSetChanged()
     }
 
-    private fun showDialog(form: Int) {
-        if (form != 1 && viewModel.first.value!!) {
-            val alertDialog: AlertDialog? = requireActivity().let {
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    setPositiveButton("تایید", { dialog, id ->
-                    })
-                }
-
-                builder.setMessage(" اگر نیاز به کپی کتاب یا جزوه ای دارید که باید به صورت فیزیکی تحویل دهید، زمانی را جهت تحویل انتخاب کنید")
-                builder.create()
-            }
-
-            alertDialog?.show()
-
-            viewModel.first.value = false
-        }
-    }
+//    private fun showDialog(form: Int) {
+//        if (form != 1 && viewModel.first.value!!) {
+//            val alertDialog: AlertDialog? = requireActivity().let {
+//                val builder = AlertDialog.Builder(it)
+//                builder.apply {
+//                    setPositiveButton("تایید", { dialog, id ->
+//                    })
+//                }
+//
+//                builder.setMessage(" اگر نیاز به کپی کتاب یا جزوه ای دارید که باید به صورت فیزیکی تحویل دهید، زمانی را جهت تحویل انتخاب کنید")
+//                builder.create()
+//            }
+//
+//            alertDialog?.show()
+//
+//            viewModel.first.value = false
+//        }
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
