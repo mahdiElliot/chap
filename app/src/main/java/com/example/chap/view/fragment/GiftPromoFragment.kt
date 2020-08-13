@@ -84,17 +84,22 @@ class GiftPromoFragment : Fragment() {
 
                 }
             })
+            viewModel.gifts.observe(viewLifecycleOwner, Observer {
+                recyclerViewAdapter.submitList(it)
+            })
         } else if (form == 2) {
             viewModel.getPromos(object : OnError {
                 override fun onError(errMsg: String?) {
 
                 }
             })
+
+            viewModel.promos.observe(viewLifecycleOwner, Observer {
+                recyclerViewAdapter.submitList(it)
+            })
         }
 
-        viewModel.gifts.observe(viewLifecycleOwner, Observer {
-            recyclerViewAdapter.submitList(it)
-        })
+
 
         tempF = viewModel.file1.value
         tempF2 = viewModel.file2.value

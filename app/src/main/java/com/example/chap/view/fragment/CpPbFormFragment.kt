@@ -103,7 +103,7 @@ class CpPbFormFragment : Fragment() {
 
             viewModel.getTimes(object : OnError {
                 override fun onError(errMsg: String?) {
-
+                    Toast.makeText(context, "خطا در دریافت", Toast.LENGTH_LONG).show()
                 }
             })
 

@@ -48,7 +48,9 @@ class DialogChangePassFragment : DialogFragment() {
         btn_send.setOnClickListener {
             val pass = et_change_pass.text.toString()
             val pass2 = et_change_pass_repeat.text.toString()
-            if (pass == pass2) {
+            if (pass.length < 6)
+                et_change_pass.error = getString(R.string.invalid_pass)
+            else if (pass == pass2) {
                 CoroutineScope(Dispatchers.IO).launch {
                     val res = viewModel.editPass(pass, object : OnError {
                         override fun onError(errMsg: String?) {

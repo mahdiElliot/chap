@@ -157,12 +157,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_exit -> {
 
-                SharedPref(this).saveToken("")
-                startActivity(Intent(this, AuthActivity::class.java))
-                finish()
                 viewModel.logout(object : OnError {
                     override fun onError(errMsg: String?) {
                         Log.i(TAG, "logout error:$errMsg")
+                    }
+                })
+
+                viewModel.loggedOut.observe(this, androidx.lifecycle.Observer {
+                    if (it) {
+                        SharedPref(this).saveToken("")
+                        startActivity(Intent(this, AuthActivity::class.java))
+                        finish()
                     }
                 })
 

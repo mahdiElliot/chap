@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -68,6 +69,32 @@ class RegisterFragment : Fragment() {
         val btn_register = view.findViewById<Button>(R.id.btn_register)
         val tv_signin = view.findViewById<TextView>(R.id.tv_signin)
 
+        et_username.setText(authActivityViewModel.username.value)
+        et_email.setText(authActivityViewModel.email.value)
+        et_mobile.setText(authActivityViewModel.mobile.value)
+        et_name_familyName.setText(authActivityViewModel.first_last_name.value)
+        et_pass.setText(authActivityViewModel.password.value)
+
+        et_username.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.username.value = text.toString()
+        }
+
+        et_email.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.email.value = text.toString()
+        }
+
+        et_name_familyName.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.first_last_name.value = text.toString()
+        }
+
+        et_mobile.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.mobile.value = text.toString()
+        }
+
+        et_pass.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.password.value = text.toString()
+        }
+
         btn_register.setOnClickListener {
             if (et_username.text.toString().isEmpty())
                 et_username.error = getString(R.string.invalid_username)
@@ -75,7 +102,7 @@ class RegisterFragment : Fragment() {
                 et_name_familyName.error = getString(R.string.invalid_name_family)
             else {
                 val matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(et_email.text.toString())
-                if (!matcher.find())
+                if (et_email.text.toString().isNotEmpty() && !matcher.find())
                     et_email.error = getString(R.string.invalid_email)
                 else if (et_mobile.text.toString()
                         .isEmpty() || et_mobile.text.toString().length != 11
@@ -87,9 +114,9 @@ class RegisterFragment : Fragment() {
                     //check if user hasn't registered before
                     val user = User(
                         et_username.text.toString(),
-                        et_name_familyName.text.toString(),
+                        et_name_familyName.text.toString().trim(),
                         et_email.text.toString(),
-                        et_number.text.toString(),
+                        et_mobile.text.toString(),
                         et_pass.text.toString()
                     )
                     authActivityViewModel.register(user, object : OnError {
@@ -99,9 +126,12 @@ class RegisterFragment : Fragment() {
                     })
 
                     authActivityViewModel.isUserAuthenticated.observe(viewLifecycleOwner, Observer {
-                        activity?.startActivity(Intent(activity, MainActivity::class.java))
-                        activity?.finish()
-                        btn_register.isEnabled = false
+                        if (it) {
+                            activity?.startActivity(Intent(activity, MainActivity::class.java))
+                            activity?.finish()
+                            btn_register.isEnabled = false
+                        }
+
                     })
 
                 }
@@ -109,7 +139,8 @@ class RegisterFragment : Fragment() {
         }
 
         tv_signin.setOnClickListener {
-            navController.navigate(R.id.action_registerFragment_to_signInFragment)
+
+        navController.navigate(R.id.action_registerFragment_to_signInFragment)
         }
     }
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.chap.R
@@ -59,6 +60,16 @@ class LogInFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
+        et_email_username.setText(authActivityViewModel.username2.value)
+        et_pass.setText(authActivityViewModel.password2.value)
+
+        et_email_username.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.username2.value = text.toString()
+        }
+
+        et_pass.doOnTextChanged { text, start, before, count ->
+            authActivityViewModel.password2.value = text.toString()
+        }
 
         btn_login.setOnClickListener {
             if (et_email_username.text.toString().isEmpty())
@@ -66,6 +77,14 @@ class LogInFragment : Fragment() {
             else if (et_pass.text.toString().length < 6)
                 et_pass.error = getString(R.string.invalid_pass)
             else {
+//                authActivityViewModel.login(et_email_username.text.toString(),
+//                    et_pass.text.toString(),
+//                    object : OnError {
+//                        override fun onError(errMsg: String?) {
+//                            Toast.makeText(requireContext(), errMsg, Toast.LENGTH_SHORT).show()
+//                        }
+//                    })
+
                 authActivityViewModel.login(et_email_username.text.toString(),
                     et_pass.text.toString(),
                     object : OnError {
@@ -75,9 +94,11 @@ class LogInFragment : Fragment() {
                     })
 
                 authActivityViewModel.isUserAuthenticated.observe(viewLifecycleOwner, Observer {
-                    activity?.startActivity(Intent(activity, MainActivity::class.java))
-                    activity?.finish()
-                    btn_login.isEnabled = false
+                    if (it) {
+                        activity?.startActivity(Intent(activity, MainActivity::class.java))
+                        activity?.finish()
+                        btn_login.isEnabled = false
+                    }
                 })
             }
         }

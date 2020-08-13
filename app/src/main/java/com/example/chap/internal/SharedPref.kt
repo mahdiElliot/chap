@@ -18,6 +18,7 @@ class SharedPref(val context: Context) {
     }
 
     fun saveToken(token: String) {
+
         val key: SecretKey
         val crypto = Crypto(Options.TRANSFORMATION_SYMMETRIC)
         val store = Store(context)
@@ -39,7 +40,7 @@ class SharedPref(val context: Context) {
             val key = store.getSymmetricKey(TOKEN_KEY, null)
             val decryptedData = crypto.decrypt(encryptedData!!, key)
             Log.i(TAG, "loadEncryptionKey: Token Decrypted")
-            if (decryptedData == "") "" else "Bearer $decryptedData"
+            if (decryptedData == "") "" else "$decryptedData"
 
         } catch (e: Exception) {
             e.printStackTrace()

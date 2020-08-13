@@ -44,9 +44,11 @@ class DialogCommentFragment : DialogFragment() {
         }
 
         btn_send.setOnClickListener {
-            viewModel.sendComment("mahdi", content.text.toString(), object : OnError {
+            val title =
+                if (et_title.text.toString().isNotEmpty()) et_title.text.toString() else "پست"
+            viewModel.sendComment(title, et_content.text.toString(), object : OnError {
                 override fun onError(errMsg: String?) {
-                    Toast.makeText(context, errMsg, Toast.LENGTH_LONG).show()
+//                    Toast.makeText(context, errMsg, Toast.LENGTH_LONG).show()
                 }
             })
             dismiss()

@@ -1,5 +1,7 @@
 package com.example.chap.adapter
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +9,11 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chap.R
+import com.example.chap.internal.SolarCalendar
 import com.example.chap.model.Comment
 import kotlinx.android.synthetic.main.item_comment.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CommentsRecyclerViewAdapter(private val interaction: Interaction? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -66,8 +71,18 @@ class CommentsRecyclerViewAdapter(private val interaction: Interaction? = null) 
         fun bind(item: Comment) = with(itemView) {
 
             tv_name.text = item.name
-            tv_comment.text = item.content
-            tv_date.text = item.date
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                tv_comment.text = Html.fromHtml(item.content, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                tv_comment.text = Html.fromHtml(item.content)
+            }
+
+            val date = item.date.split("-")
+            val c = SolarCalendar(date[0].toInt(), date[1].toInt(), date[2].toInt())
+            val y = c.jy
+            val m = c.jm
+            val d = c.jd
+            tv_date.text = "$y/$m/$d"
         }
     }
 
