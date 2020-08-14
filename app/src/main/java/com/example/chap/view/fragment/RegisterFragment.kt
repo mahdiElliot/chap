@@ -111,7 +111,6 @@ class RegisterFragment : Fragment() {
                 else if (et_pass.text.toString().length < 6)
                     et_pass.error = getString(R.string.invalid_pass)
                 else {
-                    //check if user hasn't registered before
                     val user = User(
                         et_username.text.toString(),
                         et_name_familyName.text.toString().trim(),

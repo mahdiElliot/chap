@@ -77,14 +77,6 @@ class LogInFragment : Fragment() {
             else if (et_pass.text.toString().length < 6)
                 et_pass.error = getString(R.string.invalid_pass)
             else {
-//                authActivityViewModel.login(et_email_username.text.toString(),
-//                    et_pass.text.toString(),
-//                    object : OnError {
-//                        override fun onError(errMsg: String?) {
-//                            Toast.makeText(requireContext(), errMsg, Toast.LENGTH_SHORT).show()
-//                        }
-//                    })
-
                 authActivityViewModel.login(et_email_username.text.toString(),
                     et_pass.text.toString(),
                     object : OnError {
