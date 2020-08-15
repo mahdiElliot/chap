@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chap.R
-import com.example.chap.internal.DbAddressHelper
 import com.example.chap.internal.OnError
 import com.example.chap.model.Address
 import com.example.chap.viewModel.AddressListFragmentViewModel
 import kotlinx.android.synthetic.main.item_address.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class AddressRecyclerViewAdapter(
     private val interaction: Interaction? = null,
@@ -96,13 +99,19 @@ class AddressRecyclerViewAdapter(
                     val cp = ArrayList<Address>()
                     cp.addAll(adapter.differ.currentList)
                     if (cp.remove(item)) {
-                        if (viewModel.deleteAddress(item, object : OnError {
-                                override fun onError(errMsg: String?) {
-                                    Log.i("not deleted", errMsg!!)
+                        CoroutineScope(IO).launch {
+                            if (viewModel.deleteAddress(item, object : OnError {
+                                    override fun onError(errMsg: String?) {
+                                        Log.i("not deleted", errMsg!!)
+                                    }
+                                })) {
+                                adapter.submitList(cp)
+
+                                MainScope().launch {
+                                    adapter.notifyDataSetChanged()
+                                    viewModel.addresses.value = cp
                                 }
-                            })) {
-                            adapter.submitList(cp)
-                            adapter.notifyDataSetChanged()
+                            }
                         }
                     }
                 }

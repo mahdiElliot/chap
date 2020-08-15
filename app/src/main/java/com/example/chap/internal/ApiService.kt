@@ -1,10 +1,7 @@
 package com.example.chap.internal
 
 import android.util.Log
-import com.example.chap.model.Comment
-import com.example.chap.model.DateTime
-import com.example.chap.model.Gift
-import com.example.chap.model.User
+import com.example.chap.model.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -331,6 +328,109 @@ class ApiService(private val sharedPref: SharedPref) {
         }
     }
 
+    suspend fun addAddress(address: Address, onError: OnError): Boolean {
+        return try {
+            val j = JsonObject()
+            j.addProperty("lat", address.lat)
+            j.addProperty("lng", address.lng)
+            j.addProperty("address", address.address)
+            j.addProperty("phone", address.phone)
+            j.addProperty("delete", 0)
+            val res = requestService.addAddress(sharedPref.getToken(), j)
+            checkForAuthentication(res as Response<Any>)
+            if (res.isSuccessful)
+                true
+            else {
+                MainScope().launch {
+                    onError.onError("خطا")
+                }
+                false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            MainScope().launch { onError.onError(e.message) }
+            false
+        }
+    }
+
+    suspend fun getAddresses(onError: OnError): ArrayList<Address>? {
+        try {
+            val res = requestService.getAddresses(sharedPref.getToken())
+            checkForAuthentication(res as Response<Any>)
+            if (res.isSuccessful) {
+                val arr = ArrayList<Address>()
+                res.body()?.forEach {
+                    val lat = it.get("lat").asString
+                    val lng = it.get("lng").asString
+                    val address = it.get("address").asString
+                    val phone = it.get("phone").asString
+                    arr.add(Address(lat, lng, address, phone))
+                }
+                return arr
+            } else {
+                MainScope().launch {
+                    onError.onError("خطا")
+                }
+                return null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            MainScope().launch { onError.onError(e.message) }
+            return null
+        }
+
+    }
+
+    suspend fun editAddress(address: Address, onError: OnError): Boolean {
+        return try {
+            val j = JsonObject()
+            j.addProperty("lat", address.lat)
+            j.addProperty("lng", address.lng)
+            j.addProperty("address", address.address)
+            j.addProperty("phone", address.phone)
+            j.addProperty("delete", 0)
+            val res = requestService.addAddress(sharedPref.getToken(), j)
+            checkForAuthentication(res as Response<Any>)
+            if (res.isSuccessful)
+                true
+            else {
+                MainScope().launch {
+                    onError.onError("خطا")
+                }
+                false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            MainScope().launch { onError.onError(e.message) }
+            false
+        }
+    }
+
+    suspend fun deleteAddress(address: Address, onError: OnError): Boolean {
+        return try {
+            val j = JsonObject()
+            j.addProperty("lat", address.lat)
+            j.addProperty("lng", address.lng)
+            j.addProperty("address", address.address)
+            j.addProperty("phone", address.phone)
+            j.addProperty("delete", 1)
+            val res = requestService.addAddress(sharedPref.getToken(), j)
+            checkForAuthentication(res as Response<Any>)
+            if (res.isSuccessful)
+                true
+            else {
+                MainScope().launch {
+                    onError.onError("خطا")
+                }
+                false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            MainScope().launch { onError.onError(e.message) }
+            false
+        }
+    }
+
 
     private fun checkForAuthentication(res: Response<Any>) {
         if (res.code() == 403 || res.code() == 401)
@@ -406,5 +506,15 @@ class ApiService(private val sharedPref: SharedPref) {
 
         @GET("all/promos")
         suspend fun getPromos(): Response<ArrayList<JsonObject>>
+
+        @POST("all/addresses")
+        suspend fun addAddress(
+            @Header("Authorization") token: String,
+            @Body body: JsonObject
+        ): Response<JsonObject>
+
+        @GET("all/addresses")
+        suspend fun getAddresses(@Header("Authorization") token: String): Response<ArrayList<JsonObject>>
+        
     }
 }

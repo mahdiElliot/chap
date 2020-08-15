@@ -76,8 +76,8 @@ class MapFragment : Fragment() {
 
         map_view.onCreate(savedInstanceState)
 
-        val lg = requireArguments().getFloat("lng", -182f)
-        val lt = requireArguments().getFloat("lat", -86f)
+        val lg = requireArguments().getString("lng", "")
+        val lt = requireArguments().getString("lat", "")
 
 
         map_view.getMapAsync {
@@ -91,7 +91,7 @@ class MapFragment : Fragment() {
                     symbolManager!!.iconRotationAlignment = ICON_ROTATION_ALIGNMENT_VIEWPORT
 
 
-                    if (lg != -182f && lt != -86f) {
+                    if (lg != "" && lt != "") {
                         map!!.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(
@@ -155,11 +155,11 @@ class MapFragment : Fragment() {
                             val phone = requireArguments().getString("phone")
                             val bundle = bundleOf(
                                 "address" to response.addressCompact,
-                                "lat" to symbol!!.latLng.latitude.toFloat(),
-                                "lng" to symbol!!.latLng.longitude.toFloat(),
+                                "lat" to symbol!!.latLng.latitude,
+                                "lng" to symbol!!.latLng.longitude,
                                 "phone" to phone
                             )
-                            if (lg != -182f && lt != -86f)
+                            if (lg != "" && lt != "")
                                 bundle.putBoolean("add", false)
                             else
                                 bundle.putBoolean("add", true)

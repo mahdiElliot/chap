@@ -13,7 +13,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chap.R
 import com.example.chap.adapter.AddressRecyclerViewAdapter
-import com.example.chap.internal.DbAddressHelper
 import com.example.chap.internal.OnError
 import com.example.chap.internal.SharedPref
 import com.example.chap.internal.ViewModelsFactory
@@ -85,8 +84,16 @@ class AddressListFragment : Fragment() {
 //                }
 //            })
 //            recyclerViewAdapter.notifyDataSetChanged()
-            val bundle = bundleOf("phone" to "09159880549")
-            navController.navigate(R.id.action_addressListFragment_to_mapFragment, bundle)
+            viewModel.getNumber(object : OnError {
+                override fun onError(errMsg: String?) {
+                    Toast.makeText(context, "خطا در اتصال", Toast.LENGTH_LONG).show()
+                }
+            })
+            viewModel.number.observe(viewLifecycleOwner, Observer {
+                val bundle = bundleOf("phone" to it)
+                navController.navigate(R.id.action_addressListFragment_to_mapFragment, bundle)
+            })
+
         }
 
     }

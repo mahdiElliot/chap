@@ -20,6 +20,10 @@ import com.example.chap.viewModel.AddressListFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_edit_address.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -46,8 +50,8 @@ class EditAddressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val address = requireArguments().getString("address")
-        val lat = requireArguments().getFloat("lat")
-        val lng = requireArguments().getFloat("lng")
+        val lat = requireArguments().getDouble("lat")
+        val lng = requireArguments().getDouble("lng")
         val phone = requireArguments().getString("phone")
 
         et_address.setText(address)
@@ -56,7 +60,7 @@ class EditAddressFragment : Fragment() {
         btn_save.isClickable = true
 
         btn_save.setOnClickListener {
-            btn_save.isClickable = false
+//            btn_save.isClickable = false
             val txt = et_address.text.toString()
             val number = et_number.text.toString()
             if (txt.isEmpty())
@@ -73,49 +77,55 @@ class EditAddressFragment : Fragment() {
                     builder.setPositiveButton("بله") { _, _ ->
                         progressbar.visibility = View.VISIBLE
 
-                        if (save(lat, lng, txt, number)) {
-                            if (isForm == 1)
-                                send(sharedP, txt, number)
-                            else
-                                send2(sharedP, txt, number)
+                        CoroutineScope(IO).launch {
+                            if (save(lat, lng, txt, number)) {
+                                if (isForm == 1)
+                                    send(sharedP, txt, number)
+                                else
+                                    send2(sharedP, txt, number)
 
-                            setTimer()
-                        } else
-                            showDialog("متاسفانه درخواست ثبت نشد. دوباره سعی کنید")
+                                setTimer()
+                            } else
+                                showDialog("متاسفانه درخواست ثبت نشد. دوباره سعی کنید")
+                        }
+
                     }
                     builder.setNegativeButton("خیر") { dialog, _ -> dialog.cancel() }
                     builder.create().show()
 
-                } else if (save(lat, lng, txt, number)) {
-                    requireActivity().onBackPressed()
-                    requireActivity().onBackPressed()
+                } else {
+                    CoroutineScope(IO).launch {
+                        if (save(lat, lng, txt, number)) {
+                            requireActivity().onBackPressed()
+                            requireActivity().onBackPressed()
+                        }
+                    }
                 }
-
 
             }
         }
     }
 
-    private fun save(lat: Float, lng: Float, address: String, number: String): Boolean {
+    private suspend fun save(lat: Double, lng: Double, address: String, number: String): Boolean {
         val shouldAdd = requireArguments().getBoolean("add", false)
-        val adrs = Address(lat, lng, address, number)
-        val isDeleted = if (!shouldAdd)
-            viewModel.deleteAddress(adrs, object : OnError {
+        val adrs = Address(lat.toString(), lng.toString(), address, number)
+        var isSaved = false
+        if (!shouldAdd) {
+            isSaved = viewModel.editAddress(adrs, object : OnError {
                 override fun onError(errMsg: String?) {
+                    isSaved = false
+                    btn_save.isClickable = true
                 }
             })
-        else shouldAdd
-
-        var isSaved = true
-        if (isDeleted) {
-            viewModel.saveAddress(adrs, object : OnError {
+        } else {
+            isSaved = viewModel.saveAddress(adrs, object : OnError {
                 override fun onError(errMsg: String?) {
                     Log.i("not saved", "not saved")
                     isSaved = false
+                    btn_save.isClickable = true
                 }
             })
         }
-
         return isSaved
     }
 
@@ -231,10 +241,11 @@ class EditAddressFragment : Fragment() {
 
     private fun setTimer() {
         //40 seconds
-        t = object : CountDownTimer(40000, 1000) {
+        t = object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 progressbar.visibility = View.GONE
+                btn_save.isClickable = true
             }
         }.start()
     }
