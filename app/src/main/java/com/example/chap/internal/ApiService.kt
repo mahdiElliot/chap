@@ -515,6 +515,6 @@ class ApiService(private val sharedPref: SharedPref) {
 
         @GET("all/addresses")
         suspend fun getAddresses(@Header("Authorization") token: String): Response<ArrayList<JsonObject>>
-        
+
     }
 }
